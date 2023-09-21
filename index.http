@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/v1/appointment 
+Content-Type: application/json
+
+{
+    "date": "2023-08-05",
+    "hour": "10:00",
+    "email": "frankypollo@gmail.com",
+    "name": "Franky",
+    "duration": "15",
+    "token": "12312323",
+    "serviceid": 2,
+    "validated": false
+}
