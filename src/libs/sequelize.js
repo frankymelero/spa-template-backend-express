@@ -4,8 +4,7 @@ const { config } = require('../config/config');
 const setupModels = require('./../db/models');
 require('dotenv').config();
 
-import * as pg from 'pg';
-import { Sequelize } from 'sequelize';
+const pg = require('pg');
 
 const sequelize = new Sequelize(process.env.POSTGRES_URL, {
     dialectModule: pg,
