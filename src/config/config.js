@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const config = {
-    env: process.env.NODE_ENV || 'dev',
+    env: 'dev',
     port: process.env.PORT || 8000,
     dbUser: process.env.POSTGRES_USER,
     dbPassword: process.env.POSTGRES_PASSWORD,
