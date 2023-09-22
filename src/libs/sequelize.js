@@ -9,6 +9,12 @@ const pg = require('pg');
 const sequelize = new Sequelize(process.env.POSTGRES_URL, {
     dialectModule: pg,
     dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false, 
+      },
+    },
   });
 
 sequelize.sync();
