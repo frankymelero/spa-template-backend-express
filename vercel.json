@@ -2,15 +2,19 @@
     "version": 2,
     "name": "socketing",
     "builds": [
-        {
-            "src": "/src/(.*)",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "src/routes/index.js",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/src/(.*)",
-            "dest": "/app.js"
-        }
+      {
+        "src": "/api/v1/(.*)", 
+        "dest": "src/routes/index.js"
+      },
+      {
+        "src": "/(.*)", 
+        "dest": "src/routes/index.js"
+      }
     ]
-}
+  }
