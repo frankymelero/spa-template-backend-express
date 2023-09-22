@@ -1,5 +1,5 @@
 const { models } = require('../libs/sequelize');
-const nodemailer = require('nodemailer');
+
 
 class AppointmentService {
 
@@ -27,7 +27,8 @@ class AppointmentService {
     }
 
     async create(data){
-        const res = await models.Appointment.create(data);
+        const { validated, ...restOfData } = data;
+        const res = await models.Appointment.create(restOfData);
         return res;
     }
 
@@ -68,48 +69,26 @@ class AppointmentService {
           });
       
           if (model) {
-            // Obtén los detalles de la cita desde la base de datos
-            const { date, hour, name, email, token } = model.dataValues;
+            if (model.validated) {
+              // Si el campo 'validated' es true, significa que la cita ya ha sido validada anteriormente
+              return { status: 404 , success: false, message: "Cita ya validada anteriormente." };
+            } else {
+              // Obtén los detalles de la cita desde la base de datos
+              const { date, hour, name, email } = model.dataValues;
       
-            // Actualiza el campo validated a true
-            await model.update({ validated: true });
-      
-            // Construye el enlace con el token
-            const link = `https://loqueseaq.com/appointment/${token}`;
-      
-            // Personaliza el mensaje del correo electrónico con los datos de la cita y el enlace
-            const message = `La cita para el ${date} a las ${hour} con el nombre ${name} (${email}) y token ${token} se ha validado exitosamente. Puedes acceder a tu cita <a href="${link}">aquí</a>.`;
-      
-            // Configura el transporte de Nodemailer
-            const transporter = nodemailer.createTransport({
-              service: 'Gmail',
-              auth: {
-                user: 'franmelerogallardo@gmail.com',
-                pass: 'Dioesdiosp6hp1w'
-              }
-            });
-      
-            // Define las opciones del correo electrónico
-            const mailOptions = {
-              from: 'franmelerogallardo@gmail.com',
-              to: email, // Utiliza la dirección de correo electrónico obtenida de la base de datos
-              subject: 'Validación de Cita',
-              html: message, // Usa el mensaje personalizado como HTML
-            };
-      
-            // Envía el correo electrónico
-            await transporter.sendMail(mailOptions);
-      
-            return { success: true, message: "Cita validada exitosamente." };
+              // Actualiza el campo validated a true
+              await model.update({ validated: true });
+              
+              return { status: 200, success: true, message: "Cita validada exitosamente." };
+            }
           } else {
-            return { success: false, message: "No se encontró una cita con el token proporcionado." };
+            return { status: 404, success: false, message: "No se encontró una cita con el token proporcionado." };
           }
         } catch (error) {
           console.error('Error al validar cita por token:', error);
           throw error;
         }
       }
-      
 }
 
 module.exports = AppointmentService;

@@ -4,9 +4,9 @@ const appointmentController = require('../controllers/appointment.controller');
 
 router 
     .get('/', appointmentController.get)
+    .get('/validate/:token', appointmentController.validate)
     .post('/', appointmentController.create)
-    .put('/:id', appointmentController.update)
-    .delete('/:token', appointmentController._delete)
-    .get('/validate/:token', appointmentController.validate);
+    .delete('/:token', appointmentController._delete);
+ 
 
 module.exports = router;

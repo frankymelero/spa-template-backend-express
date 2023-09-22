@@ -56,7 +56,8 @@ const AppointmentSchema = {
   validated: {
     allowNull: false,
     type: DataTypes.BOOLEAN,
-    field: 'validated'
+    field: 'validated',
+    defaultValue: false
   },
   serviceid: {
     allowNull: false,
