@@ -9,12 +9,13 @@
     ],
     "routes": [
       {
-        "src": "/api/v1/(.*)", 
+        "src": "/api/v1/(.*)",
         "dest": "src/routes/index.js"
       },
       {
-        "src": "/(.*)", 
+        "src": "/(.*)",
         "dest": "src/routes/index.js"
       }
     ]
   }
+  
